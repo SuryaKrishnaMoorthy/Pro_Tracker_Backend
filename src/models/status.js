@@ -30,9 +30,13 @@ function create (body) {
     .then(([response]) => response);
 };
 
-function destroy (id) {
+function destroy ({ id, statusId }) {
   return db('status')
-    .where({ id })
+    .where(function () {
+      this
+        .where('id', statusId)
+        .andWhere('task_id', id);
+    })
     .del()
     .returning('*')
     .then(([response]) => response);

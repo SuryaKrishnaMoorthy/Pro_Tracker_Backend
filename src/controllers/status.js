@@ -37,8 +37,8 @@ async function create (req, res, next) {
 };
 
 async function destroy (req, res, next) {
-  await statusModel.destroy({ id: req.params.id });
-  res.status(204);
+  await statusModel.destroy({ id: req.params.id, statusId: req.params.statusId });
+  res.status(204).json('Status deleted');
 };
 
 module.exports = {
