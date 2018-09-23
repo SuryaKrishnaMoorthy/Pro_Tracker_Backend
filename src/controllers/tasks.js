@@ -3,6 +3,16 @@ const { tasksModel, statusModel } = require('../models');
 
 const resourceName = 'task';
 
+async function getTasks (req, res, next) {
+  if (req.query.date) {
+    getCurrentTasks(req, res, next);
+  } else if (req.query.type) {
+    getFiltered(req, res, next);
+  } else {
+    getAllTasks(req, res, next);
+  }
+}
+
 async function getAllTasks (req, res, next) {
   const userId = req.userId;
   const response = await tasksModel.getAllTasks(userId);
@@ -11,13 +21,13 @@ async function getAllTasks (req, res, next) {
 
 async function getCurrentTasks (req, res, next) {
   const userId = req.userId;
-  const response = await tasksModel.getCurrentTasks(userId, req.params.date);
+  const response = await tasksModel.getCurrentTasks(userId, req.query.date);
   res.json({ [ plural(resourceName) ]: response });
 };
 
 async function getFiltered (req, res, next) {
   const userId = req.userId;
-  const response = await tasksModel.getFiltered(userId, req.params.type);
+  const response = await tasksModel.getFiltered(userId, req.query.type);
   res.json({ [ plural(resourceName) ]: response });
 }
 
@@ -65,9 +75,7 @@ async function destroy (req, res, next) {
 }
 
 module.exports = {
-  getAllTasks,
-  getCurrentTasks,
-  getFiltered,
+  getTasks,
   getOne,
   create,
   update,

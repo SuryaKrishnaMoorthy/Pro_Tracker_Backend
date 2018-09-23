@@ -44,6 +44,8 @@ async function isAuthorized (req, res, next) {
     const userId = token.sub.id;
 
     const taskId = req.params.id || req.body.task_id;
+    if (!parseInt(taskId)) next({ status: 400, error: `Invalid task Id` });
+
     const task = await db('tasks').where({ id: taskId }).first();
 
     if (!task) {
