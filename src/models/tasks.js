@@ -69,20 +69,55 @@ function find (userId, id) {
 }
 
 function update (userId, id, body) {
-  return find(userId, id).then(([response]) => {
+  return find(userId, id)
+    .then(([response]) => {
+      return db('tasks')
+        .update(({
+          ...response,
+          ...body,
+          updated_at: new Date()
+        }))
+        .where({ user_id: userId, id })
+        .returning('*')
+        .then(([response]) => {
+          return response;
+        });
+    });
+};
+
+function updateScore (id, updateAction) {
+  if (updateAction === 'add') {
     return db('tasks')
+      .where(function () {
+        this
+          .where({ id })
+          .andWhere('current_score', '<', db.raw('total_score'));
+      })
       .update(({
-        ...response,
-        ...body,
-        updated_at: new Date()
+        'updated_at': new Date(),
+        current_score: db.raw('current_score + 100')
       }))
-      .where({ user_id: userId, id })
       .returning('*')
       .then(([response]) => {
         return response;
       });
-  });
-};
+  } else if (updateAction === 'minus') {
+    return db('tasks')
+      .where(function () {
+        this
+          .where({ id })
+          .andWhere('current_score', '>', 0);
+      })
+      .update(({
+        current_score: db.raw('current_score - 100'),
+        updated_at: new Date()
+      }))
+      .returning('*')
+      .then(([response]) => {
+        return response;
+      });
+  }
+}
 
 function destroy (id) {
   return db('tasks')
@@ -98,5 +133,6 @@ module.exports = {
   getFiltered,
   create,
   update,
+  updateScore,
   destroy
 };

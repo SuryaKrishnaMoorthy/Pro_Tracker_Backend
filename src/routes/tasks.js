@@ -7,7 +7,7 @@ router.get('/', auth.isLoggedIn, tasksController.getTasks);
 router.get('/:id', auth.isAuthorized, tasksController.getOne);
 
 router.post('/', auth.isLoggedIn, tasksController.create);
-router.put('/:id', auth.isAuthorized, tasksController.update);
+router.patch('/:id', auth.isAuthorized, tasksController.update);
 router.delete('/:id', auth.isAuthorized, tasksController.destroy);
 
 module.exports = router;

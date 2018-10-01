@@ -42,11 +42,24 @@ function destroy ({ id, statusId }) {
     .then(([response]) => response);
 };
 
+function filteredDestroy (id, dates) {
+  return db('status')
+    .where(function () {
+      this
+        .whereNotIn('task_date', dates)
+        .andWhere('task_id', id);
+    })
+    .del()
+    .returning('*')
+    .then(([response]) => response);
+};
+
 module.exports = {
   getAll,
   getStatusOfATask,
   getFiltered,
   get,
   create,
-  destroy
+  destroy,
+  filteredDestroy
 };
