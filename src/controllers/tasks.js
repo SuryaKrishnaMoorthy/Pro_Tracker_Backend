@@ -6,13 +6,13 @@ const { tasksModel, statusModel } = require('../models');
 const resourceName = 'task';
 
 function checkMandatoryParameters (req) {
-  return req.body.task_name && req.body.task_type && req.body.status &&
-    req.body.start_date && req.body.end_date && req.body.total_score;
+  return (req.body.task_name && req.body.task_type && req.body.status &&
+    req.body.start_date && req.body.end_date && req.body.total_score);
 }
 
 function checkDateValidity (req) {
-  return !moment(req.body.start_date).isSame(req.body.end_date) &&
-        moment(req.body.start_date).isAfter(req.body.end_date);
+  return (!moment(req.body.start_date).isSame(req.body.end_date) &&
+        moment(req.body.start_date).isAfter(req.body.end_date));
 }
 
 async function getTasks (req, res, next) {
@@ -70,8 +70,8 @@ async function getOne (req, res, next) {
 async function create (req, res, next) {
   try {
     const userId = req.userId;
-    if (checkMandatoryParameters) {
-      if (checkDateValidity) {
+    if (checkMandatoryParameters(req)) {
+      if (checkDateValidity(req)) {
         res.status(400).json({ error: `Task could not be created. End date should not be less than Start date.` });
       } else {
         const response = await tasksModel.create({ user_id: userId, ...req.body });
@@ -94,8 +94,8 @@ async function create (req, res, next) {
 
 async function update (req, res, next) {
   try {
-    if (checkMandatoryParameters) {
-      if (checkDateValidity) {
+    if (checkMandatoryParameters(req)) {
+      if (checkDateValidity(req)) {
         res.status(400).json({ error: `Task could not be updated. End date should not be less than Start date.` });
       } else {
         const dates = RRule.fromString(req.body.r_rule).all();
