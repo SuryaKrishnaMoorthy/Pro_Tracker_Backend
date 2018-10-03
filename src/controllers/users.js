@@ -1,4 +1,4 @@
-const { userModel } = require('../models');
+const { userModel, badgesModel } = require('../models');
 const auth = require('../lib/auth');
 
 function checkMandatoryParameters (req) {
@@ -12,6 +12,7 @@ async function signup (req, res, next) {
     if (checkMandatoryParameters(req)) {
       const response = await userModel.create(req.body);
       const token = auth.createToken(response.id);
+      badgesModel.createBadgesForUser(response.id);
       res.status(201).json({ token });
     } else {
       next({ status: 400, error: `Account could not be created.` });
