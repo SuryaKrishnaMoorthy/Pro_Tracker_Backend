@@ -72,7 +72,10 @@ async function create (req, res, next) {
     const userId = req.userId;
     if (checkMandatoryParameters(req)) {
       if (checkDateValidity(req)) {
-        res.status(400).json({ error: `Task could not be created. End date should not be less than Start date.` });
+        next({
+          status: 400,
+          error: `Task could not be created. End date should not be less than Start date.`
+        });
       } else {
         const response = await tasksModel.create({ user_id: userId, ...req.body });
         response.start_date = moment(response.start_date).format('YYYY-MM-DD');
@@ -80,8 +83,10 @@ async function create (req, res, next) {
         res.status(201).json({ [resourceName]: response });
       }
     } else {
-      res.status(400).json({ error:
-        `Task could not be created. Task Name, Task Type, Task Status, Start Date, End Date and Total Score are mandatory.` });
+      next({
+        status: 400,
+        error: `Task could not be created. Task Name, Task Type, Task Status, Start Date, End Date and Total Score are mandatory.`
+      });
     }
   } catch (e) {
     console.log(e);
@@ -96,7 +101,10 @@ async function update (req, res, next) {
   try {
     if (checkMandatoryParameters(req)) {
       if (checkDateValidity(req)) {
-        res.status(400).json({ error: `Task could not be updated. End date should not be less than Start date.` });
+        next({
+          status: 400,
+          error: `Task could not be updated. End date should not be less than Start date.`
+        });
       } else {
         const dates = RRule.fromString(req.body.r_rule).all();
         dates.forEach((date) => {
@@ -109,8 +117,10 @@ async function update (req, res, next) {
         res.status(200).json({ [resourceName]: response });
       }
     } else {
-      res.status(400).json({ error:
-        `Task could not be updated. Task Name, Task Type, Task Status, Start Date, End Date and Total Score are mandatory.` });
+      next({
+        status: 400,
+        error: `Task could not be updated. Task Name, Task Type, Task Status, Start Date, End Date and Total Score are mandatory.`
+      });
     }
   } catch (e) {
     console.log(e);
