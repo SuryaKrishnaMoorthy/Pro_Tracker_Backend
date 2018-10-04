@@ -1,5 +1,6 @@
 const moment = require('moment');
 const { statusModel, tasksModel, badgesModel } = require('../models');
+const badgesController = require('./badges');
 
 async function getAll (req, res, next) {
   try {
@@ -36,7 +37,7 @@ async function create (req, res, next) {
     if (req.body.task_date) {
       const response = await statusModel.create({ ...req.body });
       await tasksModel.updateScore(req.body.task_id, 'add');
-      await badgesModel.incrementScore(req.taskInDb.user_id);
+      await badgesController.updateBadges(req.taskInDb.user_id, 'add');
       response.task_date = moment(response.task_date).format('YYYY-MM-DD');
       res.status(201).json({ task_status: response });
     } else {
@@ -53,7 +54,7 @@ async function create (req, res, next) {
 async function destroy (req, res, next) {
   await statusModel.destroy({ id: req.params.id, statusId: req.params.statusId });
   await tasksModel.updateScore(req.taskInDb.id, 'minus');
-  badgesModel.decrementScore(req.taskInDb.user_id);
+  await badgesController.updateBadges(req.taskInDb.user_id, 'minus');
   res.status(204).json('Status deleted');
 };
 
