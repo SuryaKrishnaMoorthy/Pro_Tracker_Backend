@@ -1,5 +1,5 @@
 const moment = require('moment');
-const { statusModel, tasksModel, badgesModel } = require('../models');
+const { statusModel, tasksModel } = require('../models');
 const badgesController = require('./badges');
 
 async function getAll (req, res, next) {

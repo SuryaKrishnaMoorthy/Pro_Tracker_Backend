@@ -46,6 +46,5 @@ module.exports = {
   incrementScore,
   decrementScore,
   createBadgesForUser,
-  newBadgeValue,
   getScore
 };
