@@ -3,6 +3,6 @@ const router = express.Router({ mergeParams: true });
 const { badgesController } = require('../controllers');
 const auth = require('../lib/auth');
 
-router.get('/', auth.isAuthorized, badgesController.getAll);
+router.get('/', auth.isLoggedIn, badgesController.getAll);
 
 module.exports = router;

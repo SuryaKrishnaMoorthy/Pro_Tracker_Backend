@@ -3,9 +3,8 @@ const helperBadge = require('../helpers/badges');
 
 async function getAll (req, res, next) {
   try {
-    const userId = req.taskInDb.user_id;
-    const response = await badgesModel.getAll(userId);
-    res.status(200).json({ badges_of_user: response });
+    const response = await badgesModel.getAll(req.userId);
+    res.status(200).json({ badges: response });
   } catch (e) {
     next({
       status: 400,
