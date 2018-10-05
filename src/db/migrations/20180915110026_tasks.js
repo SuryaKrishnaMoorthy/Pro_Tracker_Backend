@@ -6,6 +6,8 @@ exports.up = function (knex, Promise) {
     table.text('description').notNullable().default('');
     table.string('task_type').notNullable();
     table.string('location');
+    table.string('icon_name').default('rocket');
+    table.string('icon_color').default('#ffffff');
     table.string('status').notNullable();
     table.string('r_rule').notNullable().default('');
     table.date('start_date').notNullable().default(knex.fn.now());
