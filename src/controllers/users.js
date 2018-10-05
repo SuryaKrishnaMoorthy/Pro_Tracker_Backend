@@ -35,4 +35,15 @@ async function login (req, res, next) {
   };
 };
 
-module.exports = { signup, login };
+/* Function for user deletion */
+async function deleteUser (req, res, next) {
+  try {
+    const response = await userModel.deleteUser(req.userId);
+    res.status(204).json({ response });
+  } catch (e) {
+    console.log(e);
+    next({ status: 401, error: `Could not delete user` });
+  };
+}
+
+module.exports = { signup, login, deleteUser };

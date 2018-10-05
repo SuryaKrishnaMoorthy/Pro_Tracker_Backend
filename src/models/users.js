@@ -21,4 +21,12 @@ function login ({ email, password }) {
     });
 };
 
-module.exports = { create, login };
+function deleteUser (id) {
+  return db('users')
+    .where({ id })
+    .del()
+    .returning('*')
+    .then(([response]) => response);
+};
+
+module.exports = { create, login, deleteUser };
