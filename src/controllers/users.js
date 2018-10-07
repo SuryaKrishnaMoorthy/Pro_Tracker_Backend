@@ -6,6 +6,17 @@ function checkMandatoryParameters (req) {
     req.body.first_name && req.body.last_name && req.body.zip_code);
 }
 
+async function getUser (req, res, next) {
+  try {
+    const response = await userModel.getUser(req.userId);
+    const { first_name, last_name } = response;
+    res.status(201).json({ first_name, last_name });
+  } catch (e) {
+    console.log(e);
+    next({ status: 404, error: `User could not be found` });
+  };
+}
+
 /* Function for user registration */
 async function signup (req, res, next) {
   try {
@@ -46,4 +57,4 @@ async function deleteUser (req, res, next) {
   };
 }
 
-module.exports = { signup, login, deleteUser };
+module.exports = { signup, login, getUser, deleteUser };

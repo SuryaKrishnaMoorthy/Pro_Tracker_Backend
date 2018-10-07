@@ -2,6 +2,13 @@ const { promisify } = require('util');
 const bcrypt = require('bcryptjs');
 const db = require('../db');
 
+async function getUser (id) {
+  return db('users')
+    .where({ id })
+    .returning('*')
+    .then(([response]) => response);
+};
+
 async function create ({ password, ...body }) {
   const hashed = await promisify(bcrypt.hash)(password, 8);
   return db('users')
@@ -29,4 +36,4 @@ function deleteUser (id) {
     .then(([response]) => response);
 };
 
-module.exports = { create, login, deleteUser };
+module.exports = { create, login, getUser, deleteUser };
