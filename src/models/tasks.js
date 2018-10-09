@@ -5,6 +5,16 @@ const statusModel = require('./status');
 function getAllTasks (userId) {
   return db('tasks')
     .where({ 'user_id': userId })
+    .then(tasks => {
+      const ids = tasks.map(({ id }) => id);
+      return statusModel.getStatus(ids)
+        .then(tasksStatus => {
+          return tasks.map(task => {
+            const filtered = tasksStatus.filter(taskStatus => taskStatus.task_id === task.id);
+            return { ...task, taskStatus: filtered };
+          });
+        });
+    })
     .then(response => response);
 };
 

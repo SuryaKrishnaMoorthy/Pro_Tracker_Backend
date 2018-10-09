@@ -23,6 +23,14 @@ function get (ids, date) {
     });
 };
 
+function getStatus (ids) {
+  return db('status')
+    .where(function () {
+      this
+        .whereIn('task_id', ids);
+    });
+};
+
 function create (body) {
   return db('status')
     .insert(body)
@@ -59,6 +67,7 @@ module.exports = {
   getStatusOfATask,
   getFiltered,
   get,
+  getStatus,
   create,
   destroy,
   filteredDestroy
