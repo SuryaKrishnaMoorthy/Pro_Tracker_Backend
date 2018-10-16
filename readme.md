@@ -16,7 +16,7 @@ proTracker is a one stop app where you can plan your day, create habits and trac
 
 ## What does frontend of proTracker looks like?
 
-![start page](./src/assets/screenShots/proTrackerscreens.png)
+![start page](./src/assets/proTrackerscreens.png)
 
 ### BUILT WITH
 
