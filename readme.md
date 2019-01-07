@@ -13,7 +13,6 @@ proTracker is a one stop app where you can plan your day, create habits and trac
 
 ![start page](./src/assets/proTracker_ERD.png)
 
-
 ## What does frontend of proTracker looks like?
 
 ![start page](./src/assets/proTrackerscreens.png)
@@ -27,9 +26,9 @@ proTracker is a one stop app where you can plan your day, create habits and trac
     - Moment
     - RRule
 
-
 ### Frontend for this app can be viewed in
--  https://github.com/SuryaKrishnaMoorthy/Pro_Tracker
+
+- https://github.com/SuryaKrishnaMoorthy/Pro_Tracker
 
 ## How to install?
 
@@ -43,4 +42,4 @@ proTracker is a one stop app where you can plan your day, create habits and trac
 
 ### Developed By
 
-  - For more information, please contact: Surya Krishna Moorthy at: ayrus2289@gmail.com
+- For more information, please contact: Surya Krishna Moorthy at: ayrus2289@gmail.com
